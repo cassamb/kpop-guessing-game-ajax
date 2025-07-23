@@ -1,0 +1,17 @@
+@import url(https://fonts.googleapis.com/css?family=Outfit);
+
+body {
+    font-family: Outfit, Garamond;
+}
+
+.home-page {
+    display: block;
+}
+
+.game-page {
+    display:none;
+}
+
+.end-page {
+    display:none;
+}

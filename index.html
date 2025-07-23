@@ -4,8 +4,60 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kpop Guessing Game</title>
+
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     
+    <!-- Home Page Elements -->
+    <div class="home-page">
+        <h1 id="game-title">Kpop Guessing Game</h1>
+        <h2 id="game-subtitle">Welcome to the Kpop Quiz!</h2>
+
+        <p id="welcome-msg">
+            This quiz consists of 20 multiple choice questions that will test your knowledge
+            of popular male and female Kpop groups. Whether you've listened to Kpop for years
+            or you're unfamiliar with the genre, this quiz is for everyone! Without further 
+            ado, let's get started! 
+            <br><br>
+            <span style="font-weight: bold;">Click the start button below to begin!</span>
+        </p>
+
+        <button id="start-btn">Start Game</button>
+    </div>
+
+    <!-- Game Elements -->
+    <div class="game-page">
+        <h2 id="qstn-num"></h2>
+        <h2 id="score"></h2>
+
+        <img src="" alt="" id="pic">
+
+        <p id="qstn-prompt">What is the name of the group shown above?</p>
+
+        <div id="btns">
+            <input id="opt-1">
+            <input id="opt-2">
+            <input id="opt-3">
+            <input id="opt-4">
+        </div>
+
+        <button id="hint-btn">Hint</button>
+        <button id="next-btn">Skip Question</button>
+        <button id="quit-btn">Quit Game</button>
+    </div>
+
+    <!-- Ending Page Elements -->
+    <div class="end-page">
+        <h1 id="final-score"></h1>
+        <p id="special-msg"></p>
+        <h2 id="thanks-msg">Thanks for playing!</h2>
+
+        <button id="home-btn">Home Page</button>
+    </div>
+
+    
+
 </body>
 </html>
