@@ -31,8 +31,11 @@
     <div class="game-page">
         <h2 id="qstn-num"></h2>
         <h2 id="score"></h2>
-
+        
         <img id="pic" src="" alt="" >
+
+        <button id="hint-btn">Hint</button>
+        <p id="hint-feedback"></p>
 
         <p id="qstn-prompt">What is the name of the group shown above?</p>
 
@@ -43,8 +46,9 @@
             <input id="opt-4">
         </div>
 
-        <button id="hint-btn">Hint</button>
-        <button id="next-btn">Skip Question</button>
+        <p id="user-feedback"></p>
+
+        <button id="next-btn" onclick="next()">Skip Question</button>
         <button id="quit-btn">Quit Game</button>
     </div>
 

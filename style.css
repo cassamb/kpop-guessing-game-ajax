@@ -1,22 +1,92 @@
 @import url(https://fonts.googleapis.com/css?family=Outfit);
 
+/* GENERAL STYLING */
+
 body {
     font-family: Outfit, Garamond;
+    font-weight: 550;
+    text-align: center;
+    background-color: #ffeedb;
+    color: #844700;
 }
+
+p {
+    font-size: 20px;
+    margin-right: 15%;
+    margin-left: 15%;
+}
+
+button, input {
+    display: inline-block;
+    width: 115px;
+    height: 60px;
+    border-radius: 16px;
+    margin: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    box-shadow: 1px 2px 3px #848484;
+    color: #a65900;
+    background-color: #ffddb7;
+    border: 8px solid #ffbe73;
+}
+
+/* HOME PAGE ELEMENTS */
 
 .home-page {
     display: block;
 }
 
+/* GAME PAGE ELEMENTS */
+
 .game-page {
     display:none;
 }
 
+.game-page, p {
+    font-weight: bold;
+}
+
+#user-feedback {
+    font-size: 16px;
+}
+
+#score {
+    position: absolute;
+    right: 150px;
+}
+
+#next-btn {
+    width: 140px;
+    height: 60px;
+    position: absolute;
+    right: 50px;
+    bottom: 50px;
+}
+
+#hint-btn {
+    width: 85px;
+    height: 50px;
+    position: absolute;
+    right: 150px;
+    bottom: auto;
+}
+
+#quit-btn {
+    position: absolute;
+    left: 50px;
+    bottom: 50px;
+}
+
 img {
+    border-radius: 10px;
     display: block;
+    margin-left: auto;
+    margin-right: auto;
     width: 25%;
     height: auto;
 }
+
+/* END PAGE ELEMENTS */
 
 .end-page {
     display:none;

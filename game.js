@@ -14,10 +14,30 @@ var choices = [];
 
 /* HELPER FUNCTIONS */
 
+// Returns random integer between the given minimum and maximum values
 function getRandomInt(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+// Disables the multiple choice buttons
+function disableButtons() {
+    for (var i = 1; i < 5; ++i)
+    { 
+		btn = document.getElementById("opt-" + i);
+        btn.disabled = true;
+	}
+}
+
+// Returns buttons back to original state
+function resetButtons() {
+    for (var i = 1; i < 5; ++i)
+    { 
+		btn = document.getElementById("opt-" + i);
+        btn.disabled = false;                       // Reactivating button
+        btn.style.border = "8px solid #ffbe73";   // Returning border back to normal
+	}
 }
 
 /* DATABASE HANDLERS */
@@ -137,6 +157,7 @@ function updateChoices(){
 
     // Replacing one of the wrong answers (randomly) with the correct answer
     var randButton = getRandomInt(1, 4);
+    console.log(randButton);
     correctButton = document.getElementById("opt-" + randButton);
     correctButton.setAttribute("value", correctAns[0]);
 }
@@ -144,21 +165,34 @@ function updateChoices(){
 // onclick function for user selection
 function buttonClicked(self) {
     var userAns = self.getAttribute("value");
+    var feedback = document.getElementById("user-feedback");
+    document.getElementById("next-btn").textContent = "Next Question"; // "Skip" is changed to "Next"
 
     if (userAns == correctAns[0])
     { 
-        console.log("Correct!");
-        numCorrect++; 
+        self.style.border = "8px solid #00a708"; // Highlighting the answer choice to be green
+        feedback.textContent = "Congrats! " + correctAns[0] + " is the correct answer!";
+        feedback.style.color = "#00a708";
+        numCorrect++;  
     } 
     else {
-        console.log("Incorrect!");
+        self.style.border = "8px solid #c90000"; // Highlighting the answer choice to be red
+        feedback.textContent = "Sorry! " + correctAns[0] + " is the correct answer!";
+        feedback.style.color = "#c90000";
     }
 
-    next() // Temporary
+    feedback.style.display = "block";
+    disableButtons();
+
 }
 
 // Progressing game to the next question
 function next() {
+    // Reseting the page UI elements for next question
+    resetButtons();
+    document.getElementById("user-feedback").textContent = "";          // Clearing user feedback for next question
+    document.getElementById("next-btn").textContent = "Skip Question";   // Displays "Skip" instead of "Next"
+    
     ++qCount;   // Increment "loop counter"
 
     if (qCount == totalQs) {
