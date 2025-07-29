@@ -34,7 +34,7 @@
         
         <img id="pic" src="" alt="" >
 
-        <button id="hint-btn">Hint</button>
+        <button id="hint-btn" onclick="eliminateChoice()">Hint</button>
         <p id="hint-feedback"></p>
 
         <p id="qstn-prompt">What is the name of the group shown above?</p>
@@ -49,7 +49,7 @@
         <p id="user-feedback"></p>
 
         <button id="next-btn" onclick="next()">Skip Question</button>
-        <button id="quit-btn">Quit Game</button>
+        <button id="quit-btn" onclick="window.location.reload();">Quit Game</button>
     </div>
 
     <!-- Ending Page Elements -->
@@ -58,7 +58,7 @@
         <p id="special-msg"></p>
         <h2 id="thanks-msg">Thanks for playing!</h2>
 
-        <button id="home-btn">Home Page</button>
+        <button id="home-btn" onclick="window.location.reload();">Home Page</button>
     </div>
 
     <script src="game.js"></script>

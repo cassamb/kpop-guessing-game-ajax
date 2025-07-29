@@ -6,13 +6,25 @@ var score = 0;
 var numCorrect = 0;
 var totalQs = 0;
 
-var hintUsed = 0;
+var hintsUsed = 0;
 var hintOrder = [];
 
 var correctAns = [];
 var choices = [];
 
 /* HELPER FUNCTIONS */
+
+// Shuffles the given array
+function shuffle(arr) {
+
+    for (var i = arr.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1 ));
+        var temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
+    }
+
+}
 
 // Returns random integer between the given minimum and maximum values
 function getRandomInt(min, max) {
@@ -157,15 +169,20 @@ function updateChoices(){
 
     // Replacing one of the wrong answers (randomly) with the correct answer
     var randButton = getRandomInt(1, 4);
-    console.log(randButton);
     correctButton = document.getElementById("opt-" + randButton);
     correctButton.setAttribute("value", correctAns[0]);
+
+    choices[randButton - 1] = correctAns[0];
+
+    generateHints(choices);
 }
 
 // onclick function for user selection
 function buttonClicked(self) {
     var userAns = self.getAttribute("value");
     var feedback = document.getElementById("user-feedback");
+
+    document.getElementById("hint-btn").disabled = true; // Hints are disabled
     document.getElementById("next-btn").textContent = "Next Question"; // "Skip" is changed to "Next"
 
     if (userAns == correctAns[0])
@@ -186,10 +203,74 @@ function buttonClicked(self) {
 
 }
 
-// Progressing game to the next question
+// Generating the order of elimination for the wrong answer choices
+function generateHints(options) {
+
+    for (var i = 0; i < 4; i++) {
+
+        if (options[i] != correctAns[0]) {
+            hintOrder.push(options[i]);
+        }
+        
+    }
+    
+    shuffle(hintOrder); // Shuffles wrong answer options
+
+}
+
+// onclick function for hint button
+function eliminateChoice() {
+
+    var totalHints = hintOrder.length;
+
+    if (hintsUsed <= totalHints) { // If the hints are not exhausted yet
+        
+        var eliminatedButton = document.querySelector('[value="' + hintOrder[hintsUsed] + '"]');
+        eliminatedButton.style.border = "8px solid #848484";
+        eliminatedButton.disabled = true;
+        hintsUsed++;
+
+        if (hintsUsed == hintOrder.length) { // If all hints are used ...
+            document.getElementById("hint-btn").disabled = true;                // Disable the hint button
+            document.getElementById("next-btn").textContent = "Next Question";  // "Skip" is changed to "Next"
+
+            // Highlight the correct answer button and disable it
+            var answerButton = document.querySelector('[value="' + correctAns[0] + '"]');
+            answerButton.style.border = "8px solid #00a708"; // Highlighting the answer choice to be green
+            answerButton.disabled = true;
+
+            // Provide feedback for the user
+            var answerFeedback = document.getElementById("user-feedback");
+            answerFeedback.textContent = correctAns[0] + " is the correct answer for this question!";
+            answerFeedback.style.color = "#00a708";
+        }
+
+    }
+
+    var hintsRemaining = totalHints - hintsUsed;
+    var hintStatus = document.getElementById("hint-feedback");
+    hintStatus.style.color = "#848484";
+
+    if (hintsRemaining == 1) {
+        hintStatus.textContent = hintsRemaining + " Hint Remaining";
+    }
+    else {
+        hintStatus.textContent = hintsRemaining + " Hints Remaining";
+    }
+    
+}
+
+// Reseting game properties and progressing game to the next question
 function next() {
-    // Reseting the page UI elements for next question
-    resetButtons();
+    // Reseting buttons
+    resetButtons(); // Reseting answer choices
+
+    // Reseting hints
+    document.getElementById("hint-btn").disabled = false;
+    document.getElementById("hint-feedback").textContent = "";
+    hintOrder = []; // Emptying the hints generated for the last question
+    hintsUsed = 0;
+
     document.getElementById("user-feedback").textContent = "";          // Clearing user feedback for next question
     document.getElementById("next-btn").textContent = "Skip Question";   // Displays "Skip" instead of "Next"
     
