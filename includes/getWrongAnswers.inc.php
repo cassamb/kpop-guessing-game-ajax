@@ -5,7 +5,7 @@ require_once "dbh.inc.php";
 if (isset($_GET["id"])) {
 
     // Preparing and executing the query
-    $query = $pdo->prepare("SELECT name FROM groups WHERE id != " . $_GET["id"] . ";");
+    $query = $pdo->prepare("SELECT name FROM groups WHERE id != " . $_GET["id"] . " ORDER BY RAND() LIMIT 4;");
     $query->execute();
 
     // Fetching the data as an associative array

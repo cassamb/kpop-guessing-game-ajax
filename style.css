@@ -18,7 +18,7 @@ p {
 
 button, input {
     display: inline-block;
-    width: 115px;
+    width: 125px;
     height: 60px;
     border-radius: 16px;
     margin: 10px;
@@ -34,60 +34,133 @@ button, input {
 
 .home-page {
     display: block;
+    margin: 8%;
+}
+
+#game-title {
+    font-size: 85px;
+}
+
+#game-subtitle {
+    font-size: 32px;
+    margin-top: -3%;
+}
+
+#welcome-msg {
+    font-weight: 500;
+    margin-left: 15%;
+    margin-right: 15%;
 }
 
 /* GAME PAGE ELEMENTS */
 
 .game-page {
     display:none;
+    /* margin-top: 5%; */
 }
 
-.game-page, p {
+#qstn-num {
+    font-size: 32px;
+    margin-top: 5%;
+}
+
+#qstn-prompt {
     font-weight: bold;
+    margin-top: 2%;
 }
 
 #user-feedback {
     font-size: 16px;
+    font-weight: bold;
 }
 
 #score {
     position: absolute;
-    right: 150px;
+    right: 8%;
+    font-size: 40px;
 }
 
 #next-btn {
     width: 140px;
     height: 60px;
     position: absolute;
-    right: 50px;
-    bottom: 50px;
+    right: 8%;
+    bottom: 8%;
+    color: #422300;
+    background-color: #CEA97F;
+    border: 8px solid #5D3200;
 }
 
 #hint-btn {
     width: 85px;
     height: 50px;
     position: absolute;
-    right: 150px;
+    right: 10%;
+    margin-top: -7%;
     bottom: auto;
+    color: #2B2B2B;
+    background-color: #ACACAC;
+    border: 8px solid #6D6D6D;
+}
+
+#hint-feedback {
+    font-weight: bold;
+    font-size: 16px;
+    position: absolute;
+    margin-top: -2%;
+    right: -6%;
 }
 
 #quit-btn {
     position: absolute;
-    left: 50px;
-    bottom: 50px;
+    width: 75px;
+    height: 50px;
+    right: 1%;
+    top: 2%;
+    color: #930000;
+    background-color: #E39E9E;
+    border: 8px solid #C90000;
 }
 
 img {
+    max-block-size: 300px;
     border-radius: 10px;
     display: block;
     margin-left: auto;
     margin-right: auto;
-    width: 25%;
-    height: auto;
+    /* width: 25%;
+    height: auto; */
+    width: auto;
+    height: 35%;
 }
+
+/* Score Bar */
+
+.score-container {
+    transform: rotate(180deg);
+    position: absolute;
+    margin-left: 10%;
+    margin-top: -25%;
+    width: 3%;
+    height: 75%;
+    background-color: #422300;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.score-bar {
+    transform: rotate(180deg);
+    height: 0%;
+    width: 100%; 
+    text-align: center;
+    font-weight: bold;
+    background-color: #94734d;
+    color: #422300;
+} 
 
 /* END PAGE ELEMENTS */
 
 .end-page {
     display:none;
+    margin-top: 15%;
 }

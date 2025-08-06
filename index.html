@@ -30,9 +30,12 @@
     <!-- Game Elements -->
     <div class="game-page">
         <h2 id="qstn-num"></h2>
-        <h2 id="score"></h2>
         
         <img id="pic" src="" alt="" >
+        
+        <div class="score-container">
+            <div class="score-bar" id="fill">0%</div>
+        </div>
 
         <button id="hint-btn" onclick="eliminateChoice()">Hint</button>
         <p id="hint-feedback"></p>
@@ -49,7 +52,7 @@
         <p id="user-feedback"></p>
 
         <button id="next-btn" onclick="next()">Skip Question</button>
-        <button id="quit-btn" onclick="window.location.reload();">Quit Game</button>
+        <button id="quit-btn" onclick="window.location.reload();">Quit</button>
     </div>
 
     <!-- Ending Page Elements -->

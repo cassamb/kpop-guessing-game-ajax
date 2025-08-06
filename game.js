@@ -115,7 +115,7 @@ function queryWrongAnswers(){
             for (var i in response) {
                 choices[i] = response[i].name;
             }
-
+            console.log("Choices: " + choices);
             updateChoices();
         
         }
@@ -142,7 +142,7 @@ function updateGame() {
 
     // Updating gameplay UI elements
     document.getElementById("qstn-num").textContent = "Question # " + (qCount + 1);
-    document.getElementById("score").textContent = "Score: " +  score + "%";
+    updateScoreBar(score);
 
 }
 
@@ -151,6 +151,17 @@ function updateImage() {
     var randImg = document.getElementById("pic");
     randImg.setAttribute("src", correctAns[1]);                 // url
     randImg.setAttribute("alt", "Image of " + correctAns[0]);   // name
+}
+
+// Updating the progress bar
+function updateScoreBar(score) {
+
+    if (score < 100) {
+
+        var scoreBar = document.getElementById("fill");
+        scoreBar.style.height = score + "%";
+        scoreBar.textContent = score + "%";
+    }
 }
 
 // Updating the answer choices for the current question
@@ -277,7 +288,8 @@ function next() {
     ++qCount;   // Increment "loop counter"
 
     if (qCount == totalQs) {
-        endGame();      // End the game
+        score = (numCorrect/totalQs) * 100;     // Updating user's score
+        endGame();                              // End the game
     } 
     else {
         updateGame();   // Update and progress the game
