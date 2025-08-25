@@ -16,6 +16,6 @@ if (isset($_GET["id"])) {
 
 }
 
-// Closing the database connection
+// Closing the database connection and clearing the query
 $pdo = null;
 $query = null;

@@ -12,6 +12,6 @@ $results = $query->fetchAll(PDO::FETCH_ASSOC);
 // Converting result/server response to JSON format
 echo json_encode($results);
 
-// Closing the database connection
+// Closing the database connection and clearing the query
 $pdo = null;
 $query = null;

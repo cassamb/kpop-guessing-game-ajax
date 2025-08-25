@@ -65,11 +65,11 @@ function queryShuffledOrder() {
             var response = JSON.parse(this.responseText);
 
             for (var i in response) {
-                ref.push(response[i].id);
+                ref.push(response[i].id); // Pushing the shuffled ids to the reference array
             }
             
-            totalQs = ref.length;
-            updateGame();
+            totalQs = ref.length;   // Setting the total number of questions in the quiz
+            updateGame();           // Starting the game
         }
     };
 
@@ -79,7 +79,7 @@ function queryShuffledOrder() {
 // Queries database for the name and url of the group for the current question and populates the correctAns array
 function queryCorrectAnswer(){
 
-    var id = ref[qCount];
+    var id = ref[qCount];   // id to reference in database
 
     var xhr = new XMLHttpRequest();
     xhr.open("GET", "includes/getCorrectAnswer.inc.php?id=" + id, true);
@@ -88,11 +88,12 @@ function queryCorrectAnswer(){
         if(this.status == 200) {
             var response = JSON.parse(this.responseText);
             
+            // Updating the data for the current answer
             correctAns[0] = response[0].name;
             correctAns[1] = response[0].url;
 
-            updateImage();
-            queryWrongAnswers();
+            updateImage();              // Updating image being shown
+            queryWrongAnswers(id);      // Querying the database for the wrong answers
         
         }
     };
@@ -101,9 +102,9 @@ function queryCorrectAnswer(){
 }
 
 // Queries the database for 4 group names that do not correspond to the correct answer and populates them in the choices array
-function queryWrongAnswers(){
+function queryWrongAnswers(id){
 
-    var id = ref[qCount];
+    // var id = ref[qCount];
 
     var xhr = new XMLHttpRequest();
     xhr.open("GET", "includes/getWrongAnswers.inc.php?id=" + id, true);
@@ -112,11 +113,12 @@ function queryWrongAnswers(){
         if(this.status == 200) {
             var response = JSON.parse(this.responseText);
 
+            // Updating the choices array
             for (var i in response) {
                 choices[i] = response[i].name;
             }
-            console.log("Choices: " + choices);
-            updateChoices();
+
+            updateChoices(); // Updates the multiple choice answers
         
         }
     };
@@ -153,11 +155,11 @@ function updateImage() {
     randImg.setAttribute("alt", "Image of " + correctAns[0]);   // name
 }
 
-// Updating the progress bar
+// Updating the score bar
 function updateScoreBar(score) {
 
     if (score < 100) {
-
+        // "Filling" the score bar based on user's current score
         var scoreBar = document.getElementById("fill");
         scoreBar.style.height = score + "%";
         scoreBar.textContent = score + "%";
@@ -169,13 +171,11 @@ function updateChoices(){
 
     for (var n = 1; n <= 4; ++n) // Looping to assign values to multiple choice buttons (1, 2, 3, and 4)
     {	
-
         // Creating the buttons for our multiple choice answers, assigning the values, and adding event listeners
         choice = document.getElementById("opt-" + n);
         choice.setAttribute("type", "button");
         choice.setAttribute("value", choices[n - 1]);		           
         choice.setAttribute("onclick", "buttonClicked(this)");	
-        
     } 
 
     // Replacing one of the wrong answers (randomly) with the correct answer
@@ -183,9 +183,9 @@ function updateChoices(){
     correctButton = document.getElementById("opt-" + randButton);
     correctButton.setAttribute("value", correctAns[0]);
 
-    choices[randButton - 1] = correctAns[0];
+    choices[randButton - 1] = correctAns[0]; // Inserting correct name in corresponding choices index
 
-    generateHints(choices);
+    generateHints(choices); // Determining the hint order
 }
 
 // onclick function for user selection
@@ -193,24 +193,30 @@ function buttonClicked(self) {
     var userAns = self.getAttribute("value");
     var feedback = document.getElementById("user-feedback");
 
-    document.getElementById("hint-btn").disabled = true; // Hints are disabled
-    document.getElementById("next-btn").textContent = "Next Question"; // "Skip" is changed to "Next"
+    document.getElementById("hint-btn").disabled = true;                // Hints are disabled if answer is already selected
+    document.getElementById("next-btn").textContent = "Next Question";  // "Skip" is changed to "Next"
 
-    if (userAns == correctAns[0])
+    if (userAns == correctAns[0])   // If the user selection is correct ...
     { 
+        // Provide necessary visual feedback and increment correct answer counter
         self.style.border = "8px solid #00a708"; // Highlighting the answer choice to be green
         feedback.textContent = "Congrats! " + correctAns[0] + " is the correct answer!";
         feedback.style.color = "#00a708";
         numCorrect++;  
     } 
-    else {
+    else {  // Otherwise ...
+        // Provide necessary visual feedback
         self.style.border = "8px solid #c90000"; // Highlighting the answer choice to be red
         feedback.textContent = "Sorry! " + correctAns[0] + " is the correct answer!";
         feedback.style.color = "#c90000";
+
+        // Highlighting the correct answer choice
+        var correctChoice = document.querySelector('[value="' + correctAns[0] + '"]');
+        correctChoice.style.border = "8px solid #00a708";
     }
 
-    feedback.style.display = "block";
-    disableButtons();
+    feedback.style.display = "block";   // Display feedback text
+    disableButtons();                   // Disable answer choices
 
 }
 
@@ -236,6 +242,7 @@ function eliminateChoice() {
 
     if (hintsUsed <= totalHints) { // If the hints are not exhausted yet
         
+        // Reference random wrong answer choice by value and disable it
         var eliminatedButton = document.querySelector('[value="' + hintOrder[hintsUsed] + '"]');
         eliminatedButton.style.border = "8px solid #848484";
         eliminatedButton.disabled = true;
@@ -258,10 +265,12 @@ function eliminateChoice() {
 
     }
 
+    // Calculate remaining hints and update the user
     var hintsRemaining = totalHints - hintsUsed;
     var hintStatus = document.getElementById("hint-feedback");
     hintStatus.style.color = "#848484";
 
+    // Grammar consideration
     if (hintsRemaining == 1) {
         hintStatus.textContent = hintsRemaining + " Hint Remaining";
     }
@@ -273,25 +282,25 @@ function eliminateChoice() {
 
 // Reseting game properties and progressing game to the next question
 function next() {
-    // Reseting buttons
-    resetButtons(); // Reseting answer choices
+    
+    resetButtons(); // Reseting answer choice buttons
 
-    // Reseting hints
+    // Reseting hint components
     document.getElementById("hint-btn").disabled = false;
     document.getElementById("hint-feedback").textContent = "";
     hintOrder = []; // Emptying the hints generated for the last question
     hintsUsed = 0;
 
-    document.getElementById("user-feedback").textContent = "";          // Clearing user feedback for next question
-    document.getElementById("next-btn").textContent = "Skip Question";   // Displays "Skip" instead of "Next"
+    document.getElementById("user-feedback").textContent = "";              // Clearing user feedback for next question
+    document.getElementById("next-btn").textContent = "Skip Question";      // Displays "Skip" instead of "Next"
     
     ++qCount;   // Increment "loop counter"
 
-    if (qCount == totalQs) {
-        score = (numCorrect/totalQs) * 100;     // Updating user's score
+    if (qCount == totalQs) {  // If the end of the quiz has been reached ...
+        score = (numCorrect/totalQs) * 100;     // Calculate user's final score
         endGame();                              // End the game
     } 
-    else {
+    else {  // Otherwise ...
         updateGame();   // Update and progress the game
     }
     
@@ -299,11 +308,12 @@ function next() {
 
 // Hiding gameplay UI elements and shows ending UI element in view to indicate end of game
 function endGame() {
-    document.getElementsByClassName("game-page")[0].style.display = "none";
-    document.getElementsByClassName("end-page")[0].style.display = "block";
-            
+
+    document.getElementsByClassName("game-page")[0].style.display = "none";     // Hide game page elements
+    document.getElementsByClassName("end-page")[0].style.display = "block";     // Show end page elements
+
+    // Updating end page elements
     document.getElementById("final-score").textContent = "Your final score is " +  score + "%";
-            
     var msg = document.getElementById("special-msg");
 
     if (score < 70) {
